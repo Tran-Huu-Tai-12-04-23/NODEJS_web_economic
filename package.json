@@ -1,0 +1,43 @@
+{
+  "name": "nodejs-first",
+  "version": "1.0.0",
+  "description": "using node js",
+  "main": "src/index.js",
+  "scripts": {
+    "beauti": "lint-staged",
+    "watch": "node-sass --watch src/resourse/scss/ -o src/public/css/",
+    "start": "nodemon --inspect src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "lint-staged" :{
+    "*.{js,json,scss}": "prettier --single-quote --trailing-comma all --write --tab-width 4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tran-Huu-Tai-12-04-23/nodejs-first.git"
+  },
+  "keywords": [
+    "node",
+    "js",
+    "blog",
+    "..."
+  ],
+  "author": "huutai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tran-Huu-Tai-12-04-23/nodejs-first/issues"
+  },
+  "homepage": "https://github.com/Tran-Huu-Tai-12-04-23/nodejs-first#readme",
+  "devDependencies": {
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "morgan": "^1.10.0",
+    "node-sass": "^7.0.3",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "express-handlebars": "^6.0.6"
+  }
+}
