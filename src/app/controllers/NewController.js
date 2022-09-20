@@ -2,7 +2,7 @@ const course = require('../models/course')
 const Course = require('../models/course')
 
 class NewController {
-  home(req, res) {
+    home(req, res) {
     // console.log("helo" , course)
     // res.render('home');
     Course.find( {}, function(err, course) {
