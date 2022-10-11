@@ -1,0 +1,141 @@
+  <form method="POST" id="form_delete_all" action="/course/me">
+    <div class="container mt-4">
+
+    <div class="row d-flex w-50 ml-4 align-items-center mb-3">
+      <div class="input-text">
+        <input class="check_all" name="checkbox_delete_all" type="checkbox" >
+        <h7 class="ml-1">Select All</h7>
+      </div>
+        
+      <select name="action_user_want" class=" select_option_user custom-select w-50 ml-2 mr-2 h-3 " required>
+        <option value="">-- Choose options --</option>
+        <option action="delete" value="delete">Delete</option>
+      </select>
+
+      <button type="submit" class=" btn_action_user btn btn-primary h-3  " disabled="disabled">Action</button>
+    </div>
+
+  <table class="table ">
+    <thead>
+      <tr>
+      <th scope="col">
+        Numerical Order
+      </th>
+      <th scope="col">
+        Name
+        {{{sortTable 'name' _sort}}}
+        </th>
+      <th scope="col">Desciptions</th>
+      <th scope="col">
+        Tiem Create
+        {{{sortTable 'createdAt' _sort}}}
+      </th>
+      <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody class="height_500">
+        <tr>
+            {{#each course}}
+            <th scope="row">
+              <div class="ml-2 input-text row">
+                <input type="checkbox" value="{{this._id}}" name="checkbox_delete_all_sub">
+                <div class="ml-1">{{sum @index 1}}</div>
+              </div>
+              
+            </th>
+                <td>{{this.name}}</td>
+                <td>{{this.desciptions}}</td>
+                <td  class="with_50">{{this.createdAt}}</td>
+                <td class="with_25 btn_mycourse">
+                    <a href="/course/{{this._id}}/edit" class="btn btn-link btn__custom ">Edit</a>
+                    <button type="button" data-id="{{this._id}}" class="btn btn-primary btn_action" data-toggle="modal" data-target="#exampleModal">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            {{/each}}
+        <tr>
+      
+    </tbody>
+  </table>
+  <div class="ml-3">
+    <a href="/course/me/trash">
+    <i class='bx bx-trash'>
+      <span class="fl-right">{{deletedCount}}</span>
+    </i> 
+    </a>
+</div>
+    </div>
+  </form>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Remove course</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure to remove this course?
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-course" type="button" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form method="POST" id="form_delete"></form>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        var idCourse
+        const formDelete = document.getElementById('form_delete')
+        const btnAction = document.getElementById('btn-delete-course')
+        const checkAll = $('input[name="checkbox_delete_all"]')
+        const checkAllCheckBoxSub = $('input[name="checkbox_delete_all_sub"]')
+        const btnActionUserWant = $('.btn_action_user')
+        const oaptionActionUser = document.querySelector('.select_option_user')
+
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            idCourse = button.data('id')
+        })
+
+        btnAction.onclick = function (event) {
+            formDelete.action = '/course/' + idCourse + '?_method=DELETE'
+            formDelete.submit()
+        }
+
+        checkAll.change(function (event) {
+          const isCheckAll = checkAll.prop('checked')
+          checkAllCheckBoxSub.prop('checked', isCheckAll)
+          // handle event onchang on sub select to disabled btn 
+          handleActionUserWant()
+        })
+        // check checkbox sub has all checked
+        checkAllCheckBoxSub.change(function (event) {
+          const isCheckAll = $('input[name="checkbox_delete_all_sub"]').length 
+                            - $('input[name="checkbox_delete_all_sub"]:checked').length == 0 ? true : false
+          checkAll.prop('checked', isCheckAll)
+
+          // handle event onchang on sub select to disabled btn 
+          handleActionUserWant()
+        })
+
+        oaptionActionUser.onchange = handleActionUserWant
+
+        function handleActionUserWant() {
+          if( $('input[name="checkbox_delete_all_sub"]:checked').length > 0
+                  && oaptionActionUser.value != ""  ) {
+            btnActionUserWant.removeAttr('disabled')
+          } else {
+              btnActionUserWant.attr('disabled', 'true')
+          }
+        }  
+    })
+
+</script>

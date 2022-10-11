@@ -1,0 +1,20 @@
+
+<div class="container fluid ">
+    <div class="row">
+        {{#each course}}
+        <div class="col-sm-4 mt-20">
+            <a href="/course/{{this.slug}}">
+                <img class="card-img-top" src="{{this.image}}" alt="{{this.name}}">
+            </a>
+            <div class="card-body">
+                <a href="/course/{{this.slug}}">
+                    <h5 class="card-title">{{this.name}}</h5>
+                </a>
+                <p class="card-text">{{this.desciptions}}</p>
+                <a href="#" class="btn btn-primary">Buy Course</a>
+            </div>
+        </div>
+        {{/each}}   
+    </div>
+    
+</div>
